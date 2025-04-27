@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Collected Words</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(132deg, aquamarine, darkslateblue);
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+    }
+
+    .box {
+      width: 400px;
+      border-radius: 10px;
+      background-color: white;
+      padding: 20px;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      overflow-y: auto;
+      max-height: 500px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .word-number {
+      font-weight: normal;
+      color: #888;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="box" id="wordList"></div>
+</div>
+
+<script>
+  // 使用 fetch 从 Servlet 获取单词数据
+  fetch('SendCollectServlet')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // 确保这是正确的 JSON
+          })
+          .then(words => {
+            const wordList = document.getElementById('wordList');
+            if (words.length > 0) {
+              words.forEach((word, index) => {
+                const wordEntry = document.createElement('div');
+                wordEntry.className = 'word-entry';
+                wordEntry.innerHTML = `<span class="word-number" style="font-size: 25px;font-family: 黑体,sans-serif">${index + 1}.</span>${word}`;
+                wordList.appendChild(wordEntry);
+              });
+            } else {
+              wordList.innerHTML = '<p>No words in collection.</p>';
+            }
+          })
+          .catch(error => console.error('Error fetching words:', error));
+</script>
+</body>
+</html>

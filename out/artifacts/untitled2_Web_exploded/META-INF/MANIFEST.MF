@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: 86195
+Build-Jdk: Amazon Corretto version 18.0.2
+

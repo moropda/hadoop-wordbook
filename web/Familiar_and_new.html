@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Layout Design</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(132deg,aquamarine, darkslateblue); /* 渐变背景 */
+      font-family: 'Poppins', sans-serif; /* 使用现代字体 */
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .small-box {
+      width: 500px;
+      height: 200px;
+      background-color: #ff6f61; /* 小块颜色 */
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      animation: slide 1s ease-in-out infinite alternate;
+    }
+
+    .large-box {
+      width: 500px;
+      height: 400px;
+      background-color: #17a2b8; /* 小块颜色 */
+      text-align: center;
+      border-radius: 25px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: 600;
+      background-color: rosybrown; /* 按钮颜色 */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加按钮阴影 */
+      transition: all 0.3s ease;
+    }
+    button:active {
+      transform: translateY(1px); /* 点击时微小变化 */
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+    button:hover {
+      background-color: blanchedalmond; /* 悬停时改变颜色 */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 增加悬停时的阴影 */
+      transform: translateY(-3px); /* 悬停时提升按钮 */
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      width: 400px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="top-row">
+    <div class="small-box">
+      <div class="constructor">
+        <div class="top-row" id="known-word">我了解的单词</div>
+        <div class="top-row" id="display-known-word">Example Known Word</div>
+        <div class="bottom-row">
+          <button id="previous-known" class="col-sm-6">上一个</button>
+          <button id="next-known" class="col-sm-6">下一个</button>
+          <button class="col-sm-6" onclick="sendToCollect('known')">添加到收藏本</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-box">
+      <div class="constructor">
+        <div class="top-row" id="unknown-word">我不了解的单词</div>
+        <div class="top-row" id="display-unknown-word">Example Unknown Word</div>
+        <div class="bottom-row">
+          <button id="previous-unknown" class="col-sm-6">上一个</button>
+          <button id="next-unknown" class="col-sm-6">下一个</button>
+          <button class="col-sm-6" onclick="sendToCollect('unknown')">添加到收藏本</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-row">
+    <!--    <div class="large-box1">-->
+    <!--      <div class="top-row" id="wordDisplay"></div>-->
+    <!--      <div class="top-row">-->
+    <!--        <label for="meaningInput">-->
+    <!--          <input type="text" id="meaningInput" placeholder="输入单词的意思" />-->
+    <!--        </label>-->
+    <!--        <button id="checkMeaningBtn">检查意思</button>-->
+    <!--      </div>-->
+    <!--      <div id="result" class="bottom-row"></div>-->
+    <!--    </div>-->
+    <div class="large-box">
+      <br/> <br/> <br/>
+      <div class="top-row" id="wordDisplay" style="font-size: 25px">Example Word</div>
+      <label>
+        <input type="text" id="meaningInput" placeholder="输入单词的意思" />
+      </label>
+      <br/> <br/> <br/>
+      <button id="checkMeaningBtn">检查意思</button>
+      <br/> <br/> <br/>
+      <div id="result" class="bottom-row" style="font-size: 25px"></div>
+    </div>
+
+    <div class="large-box">
+      <br/> <br/> <br/>
+      <div class="top-row" id="meaningDisplay" style="font-size: 25px">Example Meaning</div>
+      <label>
+        <input type="text" id="wordInput" placeholder="输入英文单词" />
+      </label>
+      <br/> <br/> <br/>
+      <button id="checkWordBtn">检查单词</button>
+      <br/> <br/> <br/>
+      <div id="result1" class="bottom-row" style="font-size: 25px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 从 wordsServlet.java 获取的单词数组
+  let wordsArray = [];
+  let WordsMeaning = [];
+  fetch('http://localhost:8080/untitled2/wordsServlet') // 替换为实际的 servlet 路径
+          .then(response => response.json())
+          .then(data => {
+            wordsArray = data.wordsArray;
+            WordsMeaning = data.WordsMeaning;
+            displayWord(); // 显示第一个单词
+          })
+          .catch(error => console.error('Error fetching data:', error));
+  let currentWordIndex = 0;
+
+  function displayWord() {
+    if (currentWordIndex < wordsArray.length) {
+      document.getElementById("wordDisplay").innerText = wordsArray[currentWordIndex];
+    } else {
+      document.getElementById("wordDisplay").innerText = "所有单词已显示完毕！";
+    }
+  }
+
+  document.getElementById("checkMeaningBtn").addEventListener("click", function() {
+    const userMeaning = document.getElementById("meaningInput").value;
+    let feedback;
+
+    if (userMeaning === WordsMeaning[currentWordIndex]) {
+      feedback = "意思正确！";
+    } else {
+      feedback = "意思不正确，正确意思是: " + WordsMeaning[currentWordIndex];
+    }
+
+    document.getElementById("result").innerText = feedback;
+
+    // 移动到下一个单词
+    currentWordIndex++;
+    displayWord();
+  });
+
+  //从meaningServlet.java中获取
+  let wordsArray1 = [];
+  let englishWords1 = [];
+  fetch('http://localhost:8080/untitled2/wordsServlet') // 替换为实际的 servlet 路径
+          .then(response => response.json())
+          .then(data => {
+            wordsArray1 = data.WordsMeaning;
+            englishWords1 = data.wordsArray;
+            displayWord1(); // 显示第一个单词
+          })
+          .catch(error => console.error('Error fetching data:', error));
+  let currentWordIndex1 = 0;
+
+  function displayWord1() {
+    if (currentWordIndex1 < wordsArray1.length) {
+      document.getElementById("meaningDisplay").innerText = wordsArray1[currentWordIndex1];
+    } else {
+      document.getElementById("meaningDisplay").innerText = "所有意思已显示完毕！";
+    }
+  }
+
+  document.getElementById("checkWordBtn").addEventListener("click", function () {
+    const userWord = document.getElementById("wordInput").value;
+    let feedback;
+
+    if (userWord === englishWords1[currentWordIndex1]) {
+      feedback = "匹配正确！";
+    } else {
+      feedback = "匹配不正确，正确单词是：" + englishWords1[currentWordIndex1];
+    }
+
+    document.getElementById("result1").innerText = feedback;
+
+    // 移动到下一个单词
+    currentWordIndex1++;
+    displayWord1();
+  });
+
+  displayWord();
+  displayWord1();
+</script>
+
+
+<script>
+  function sendToCollect(type) {
+    let word;
+    if (type === 'known') {
+      word = document.getElementById('display-known-word').innerText;
+    } else if (type === 'unknown') {
+      word = document.getElementById('display-unknown-word').innerText;
+    }
+
+    fetch('collectServlet', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'word=' + encodeURIComponent(word)
+    }).then(response => {
+      if (response.ok) {
+        alert("Word added to collection!");
+      } else {
+        alert("Failed to add word to collection.");
+      }
+    }).catch(error => console.error('Error:', error));
+  }
+</script>
+
+<script>
+  let knownWords = [];
+  let unknownWords = [];
+  let currentKnownIndex = 0;
+  let currentUnknownIndex = 0;
+
+  // 从服务器加载文本
+  async function loadWords() {
+    const response = await fetch('http://localhost:8080/untitled2/texts'); // 访问 Servlet
+    const data = await response.json(); // 假设服务器返回 JSON 格式
+    knownWords = data.known; // 假设返回的 JSON 对象中有 known 和 unknown 数组
+    unknownWords = data.unknown;
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    // 更新已知单词显示
+    document.getElementById('display-known-word').innerText = knownWords[currentKnownIndex] || '没有已知单词';
+    // 更新未知单词显示
+    document.getElementById('display-unknown-word').innerText = unknownWords[currentUnknownIndex] || '没有未知单词';
+  }
+
+  document.getElementById('next-known').onclick = function() {
+    currentKnownIndex = (currentKnownIndex + 1) % knownWords.length;
+    updateDisplay();
+  };
+
+  document.getElementById('previous-known').onclick = function() {
+    currentKnownIndex = (currentKnownIndex - 1 + knownWords.length) % knownWords.length;
+    updateDisplay();
+  };
+
+  document.getElementById('next-unknown').onclick = function() {
+    currentUnknownIndex = (currentUnknownIndex + 1) % unknownWords.length;
+    updateDisplay();
+  };
+
+  document.getElementById('previous-unknown').onclick = function() {
+    currentUnknownIndex = (currentUnknownIndex - 1 + unknownWords.length) % unknownWords.length;
+    updateDisplay();
+  };
+
+  // 页面加载时调用
+  loadWords();
+</script>
+</body>
+
+</html>

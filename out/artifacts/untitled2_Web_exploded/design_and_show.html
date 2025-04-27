@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Layout Design</title>
+    <script src="js/echarts.js"></script>
+    <script src="js/echarts-wordcloud.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(132deg,aquamarine, darkslateblue); /* 渐变背景 */
+            font-family: 'Poppins', sans-serif; /* 使用现代字体 */
+            color: #333;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .box1 {
+            width: 1300px;
+            height: 100px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            background: linear-gradient(132deg,darkorchid,aquamarine);
+            animation: slide 1s ease-in-out infinite alternate;
+        }
+
+        .large-box {
+            width: 640px;
+            height: 600px;
+            border-radius: 10px;
+            background-color: white; /* 大块颜色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            animation: pulse 1.5s ease-in-out infinite alternate;
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bottom-row .large-box:first-child {
+            left: -30px; /* Shift left by 30px */
+        }
+        .bottom-row .large-box:last-child {
+            right: -30px; /* Shift right by 30px */
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: rosybrown; /* 按钮颜色 */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加按钮阴影 */
+            transition: all 0.3s ease;
+            margin:5px 0 0 15px;
+        }
+        button:active {
+            transform: translateY(1px); /* 点击时微小变化 */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: blanchedalmond; /* 悬停时改变颜色 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 增加悬停时的阴影 */
+            transform: translateY(-3px); /* 悬停时提升按钮 */
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="top-row">
+        <div class="box1">
+            <div class="constructor">
+                <a href="Familiar_and_new.html">
+                    <button>背单词</button>
+                </a>
+                <a href="word_find.html">
+                    <button>查单词</button>
+                </a>
+                <a href="collect_word.html">
+                    <button >收藏本</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-row">
+        <div class="large-box">
+            <div id="main" style="width: 100%;height:100%;"></div>
+            <script type="text/javascript">
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+
+                // 从Servlet获取数据
+                fetch('http://localhost:8080/untitled2/wordcloudData') // 更新为你的实际路径
+                    .then(response => response.json())
+                    .then(data => {
+                        const option = {
+                            title: {
+                                text: '词云'
+                            },
+                            backgroundColor: '#fff',
+                            tooltip: {
+                                show: false,
+                            },
+                            series: [
+                                {
+                                    type: 'wordCloud',
+                                    gridSize: 5,
+                                    sizeRange: [12, 32],
+                                    width: '100%',
+                                    height: '100%',
+                                    rotationRange: [-45, 0, 45, 90],
+                                    textStyle: {
+                                        fontFamily: 'PingFangSC-Semibold',
+                                        fontWeight: 400,
+                                        color: function () {
+                                            return 'rgb(' + [
+                                                Math.round(Math.random() * 160),
+                                                Math.round(Math.random() * 160),
+                                                Math.round(Math.random() * 160)
+                                            ].join(',') + ')';
+                                        },
+                                    },
+                                    left: 'center',
+                                    top: 'center',
+                                    right: null,
+                                    bottom: null,
+                                    data: data, // 使用从Servlet获取的数据
+                                },
+                            ],
+                        };
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            </script>
+        </div>
+        <div class="large-box">
+            <div id="main1" style="width: 100%; height: 100%;"></div>
+            <script type="text/javascript">
+                async function fetchData() {
+                    const response = await fetch('column_diagramServlet');
+                    const data = await response.json();
+
+                    const xAxisData = data.map(item => item.word);
+                    const yAxisData = data.map(item => item.count);
+
+                    const option = {
+                        title: {
+                            text: '前二十个单词出现次数'
+                        },
+                        tooltip: {},
+                        xAxis: {
+                            type: 'category',
+                            data: xAxisData, // Set x-axis data to words
+                            axisLabel: {
+                                rotate: 45 // Rotate labels if needed for better visibility
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: 'Count',
+                                type: 'bar',
+                                data: yAxisData,
+                                emphasis: {
+                                    focus: 'series'
+                                }
+                            }
+                        ]
+                    };
+
+                    const myChart1 = echarts.init(document.getElementById('main1'));
+                    myChart1.setOption(option);
+                }
+
+                fetchData();
+            </script>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

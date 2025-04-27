@@ -1,0 +1,120 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="true" />
+      <option name="myIgnoreVendorSpecificProperties" value="false" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="brder-radius" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="href" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="INFO_ATTRIBUTES" />
+    <inspection_tool class="VulnerableLibrariesLocal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="isIgnoringEnabled" value="true" />
+      <option name="ignoredModules">
+        <list>
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2 中的所有库" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+          <option value="untitled2" />
+        </list>
+      </option>
+      <option name="ignoredPackages">
+        <list>
+          <option value="commons-io:commons-io:2.4" />
+          <option value="io.netty:netty-all:4.0.23.Final" />
+          <option value="io.netty:netty:3.6.2.Final" />
+          <option value="org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+          <option value="log4j:log4j:1.2.17" />
+          <option value="com.google.protobuf:protobuf-java:2.5.0" />
+          <option value="com.google.protobuf:protobuf-java:2.5.0" />
+          <option value="org.apache.zookeeper:zookeeper:3.4.6" />
+          <option value="org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+          <option value="commons-net:commons-net:3.1" />
+          <option value="org.apache.avro:avro:1.7.4" />
+          <option value="commons-beanutils:commons-beanutils:1.7.0" />
+          <option value="org.apache.hadoop:hadoop-yarn-server-common:2.7.7" />
+          <option value="org.apache.zookeeper:zookeeper:3.4.6" />
+          <option value="org.xerial.snappy:snappy-java:1.0.4.1" />
+          <option value="io.netty:netty-all:4.0.23.Final" />
+          <option value="com.google.guava:guava:11.0.2" />
+          <option value="commons-io:commons-io:2.4" />
+          <option value="org.apache.hadoop:hadoop-common:2.7.7" />
+          <option value="org.apache.hadoop:hadoop-yarn-server-common:2.7.7" />
+          <option value="log4j:log4j:1.2.17" />
+          <option value="com.google.guava:guava:11.0.2" />
+          <option value="xerces:xercesImpl:2.9.1" />
+          <option value="org.apache.hadoop:hadoop-common:2.7.7" />
+          <option value="org.apache.commons:commons-compress:1.4.1" />
+          <option value="org.apache.avro:avro:1.7.4" />
+        </list>
+      </option>
+      <option name="ignoredReasons">
+        <list>
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+          <option value="不可利用" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
